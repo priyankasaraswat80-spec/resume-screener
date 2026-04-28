@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use('Agg')   # for deployment (no GUI issues)
+matplotlib.use('Agg')
 
 from flask import Flask, render_template, request
 import os
@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
-# 🔹 Skill list
 skills_list = [
     "python", "java", "c++", "sql", "machine learning",
     "data analysis", "excel", "communication", "teamwork",
@@ -18,14 +17,12 @@ skills_list = [
     "recruitment", "hr", "management", "teaching", "education"
 ]
 
-# 🔹 Predefined Job Descriptions
 job_data = {
     "IT": "Looking for a Python Developer with machine learning, SQL, Flask, HTML, CSS and problem solving skills.",
     "HR": "Looking for HR professional with recruitment, communication, teamwork, management and hiring experience.",
     "EDUCATION": "Looking for teacher with teaching, education, classroom management and communication skills."
 }
 
-# 🔹 Read PDF
 def read_pdf(file):
     text = ""
     try:
@@ -37,12 +34,10 @@ def read_pdf(file):
         pass
     return text
 
-# 🔹 Extract skills
 def extract_skills(text):
     text = text.lower()
     return [skill for skill in skills_list if skill in text]
 
-# 🔹 ML Score
 def ml_score(resume_text, job_desc):
     texts = [resume_text, job_desc]
     vectorizer = TfidfVectorizer()
@@ -50,7 +45,6 @@ def ml_score(resume_text, job_desc):
     similarity = cosine_similarity(vectors[0], vectors[1])[0][0]
     return round(similarity * 100, 2)
 
-# 🔹 Detect Role
 def detect_role(text):
     text = text.lower()
     if "python" in text or "developer" in text:
@@ -61,7 +55,6 @@ def detect_role(text):
         return "EDUCATION"
     return "General"
 
-# 🔹 Ranking
 def rank_resumes(job_desc, role):
     folder = f"resumes/{role}"
     results = []
@@ -79,7 +72,6 @@ def rank_resumes(job_desc, role):
     results.sort(key=lambda x: x[1], reverse=True)
     return results[:5]
 
-# 🔹 Chart
 def create_chart(rankings):
     if not rankings:
         return None
@@ -102,15 +94,14 @@ def create_chart(rankings):
 
     return chart_path
 
-# 🔹 Home
+# ✅ Only ONE home route
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# 🔹 Upload (FIXED)
+# ✅ Upload route
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-
     if request.method == 'GET':
         return render_template('index.html')
 
@@ -120,11 +111,7 @@ def upload():
     if not files or files[0].filename == "":
         return render_template('index.html', result="No file uploaded")
 
-    # Select job description
-    if user_input in job_data:
-        job_desc = job_data[user_input]
-    else:
-        job_desc = user_input
+    job_desc = job_data.get(user_input, user_input)
 
     resume_text = read_pdf(files[0])
 
@@ -154,6 +141,5 @@ def upload():
         missing=missing
     )
 
-# 🔹 Run
 if __name__ == '__main__':
     app.run()
