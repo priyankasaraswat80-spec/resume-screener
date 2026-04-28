@@ -1,9 +1,5 @@
-flask
+Flask==3.0.0
 gunicorn
 scikit-learn
 PyPDF2
-<<<<<<< HEAD
 matplotlib
-=======
-matplotlib
->>>>>>> 6de7ebe0c66ab0ed31802de2de8d6d27ba75a60d
