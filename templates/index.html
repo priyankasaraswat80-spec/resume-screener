@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< HEAD
     <title>Screenify AI</title>
 
     <style>
@@ -22,13 +21,6 @@
             text-align: center;
         }
 
-        h1 { margin-bottom: 5px; }
-
-        p {
-            color: #666;
-            font-size: 14px;
-        }
-
         input, textarea {
             width: 90%;
             padding: 10px;
@@ -42,7 +34,6 @@
         button {
             padding: 10px 20px;
             margin: 8px;
-            min-width: 120px;
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -61,19 +52,6 @@
             margin-top: 20px;
             text-align: left;
         }
-
-        .top {
-            background: #e6ffe6;
-            padding: 6px;
-            border-radius: 6px;
-        }
-
-        .role {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        ul { padding-left: 20px; }
     </style>
 </head>
 
@@ -81,42 +59,22 @@
 
 <div class="container">
 
-    <!-- 🔥 HEADER -->
     <h1>🚀 Screenify AI</h1>
-    <p>Smart Resume Screening & Hiring Assistant</p>
-    <p style="color:#888;">Enter role (IT / HR / EDUCATION)</p>
+    <p>Smart Resume Screening</p>
 
-    <!-- 🔥 FORM -->
     <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="resume" multiple required><br>
+        <input type="file" name="resume" required><br>
 
         <textarea name="job_desc" placeholder="Enter Role (IT / HR / EDUCATION)" required></textarea><br>
 
-        <button type="submit">🔍 Analyze Resume</button>
+        <button type="submit">Analyze Resume</button>
     </form>
-
-    <p id="msg"></p>
-
-    <!-- 🔥 RESULT -->
-    {% if role %}
-    <div class="role">Detected Role: {{ role }}</div>
-    {% endif %}
 
     {% if result %}
     <div class="card">
         <b>{{ result }}</b><br>
         {{ skills }}
     </div>
-    {% endif %}
-
-    {% if score %}
-    <p>
-        Confidence:
-        {% if score >= 70 %} High
-        {% elif score >= 40 %} Medium
-        {% else %} Low
-        {% endif %}
-    </p>
     {% endif %}
 
     {% if missing %}
@@ -130,9 +88,7 @@
         <h3>Top Candidates:</h3>
         <ul>
             {% for file, score in rankings %}
-                <li class="{% if loop.index == 1 %}top{% endif %}">
-                    <b>{{ file }}</b> → {{ score }}%
-                </li>
+                <li>{{ file }} → {{ score }}%</li>
             {% endfor %}
         </ul>
     </div>
@@ -140,68 +96,11 @@
 
     {% if chart %}
     <div class="card">
-        <h3>Ranking Graph:</h3>
         <img src="{{ chart }}" width="100%">
     </div>
     {% endif %}
 
-    <!-- 🔥 BUTTONS -->
-    <button onclick="window.location='/'">Reset</button>
-    <button onclick="window.print()">Download</button>
-
-    <!-- 🔥 FEATURES -->
-    <div class="card">
-        <h3>✨ Features</h3>
-        <ul>
-            <li>AI-based Resume Screening</li>
-            <li>Role Detection (IT / HR / Education)</li>
-            <li>Skill Matching & Gap Analysis</li>
-            <li>Top Candidate Ranking</li>
-            <li>Graph Visualization</li>
-        </ul>
-    </div>
-
-    <!-- 🔥 TECHNOLOGY -->
-    <div class="card">
-        <h3>Technologies Used:</h3>
-        <ul>
-            <li>Flask</li>
-            <li>TF-IDF</li>
-            <li>Cosine Similarity</li>
-            <li>NLP</li>
-        </ul>
-    </div>
-
-    <!-- 🔥 FOOTER -->
-    <p style="margin-top:20px; color:#888; font-size:12px;">
-        Built with ❤️ using AI | Flask | Machine Learning
-    </p>
-
 </div>
 
-<!-- 🔥 SCRIPT -->
-<script>
-document.querySelector("form").onsubmit = () => {
-    document.getElementById("msg").innerText = "Processing...";
-};
-</script>
-
 </body>
 </html>
-=======
-    <title>Resume Screener</title>
-</head>
-<body>
-    <h2>AI Resume Screening</h2>
-    <form method="POST">
-        <textarea name="resume" placeholder="Paste Resume here"></textarea><br><br>
-        <textarea name="job" placeholder="Paste Job Description"></textarea><br><br>
-        <button type="submit">Check Match</button>
-    </form>
-
-    {% if score %}
-        <h3>Match Score: {{score}}%</h3>
-    {% endif %}
-</body>
-</html>
->>>>>>> 6de7ebe0c66ab0ed31802de2de8d6d27ba75a60d
