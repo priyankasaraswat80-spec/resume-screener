@@ -1,8 +1,7 @@
 import matplotlib
-matplotlib.use('Agg')   # 🔥 for deployment (no GUI issues)
+matplotlib.use('Agg')   # for deployment (no GUI issues)
 
 from flask import Flask, render_template, request
-import re
 import os
 from PyPDF2 import PdfReader
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -85,7 +84,7 @@ def create_chart(rankings):
     if not rankings:
         return None
 
-    os.makedirs("static", exist_ok=True)  # 🔥 important
+    os.makedirs("static", exist_ok=True)
 
     names = [x[0] for x in rankings]
     scores = [x[1] for x in rankings]
@@ -108,16 +107,20 @@ def create_chart(rankings):
 def home():
     return render_template('index.html')
 
-# 🔹 Upload
-@app.route('/upload', methods=['POST'])
+# 🔹 Upload (FIXED)
+@app.route('/upload', methods=['GET', 'POST'])
 def upload():
+
+    if request.method == 'GET':
+        return render_template('index.html')
+
     files = request.files.getlist('resume')
     user_input = request.form['job_desc'].upper()
 
     if not files or files[0].filename == "":
         return render_template('index.html', result="No file uploaded")
 
-    # 🔥 Select job description
+    # Select job description
     if user_input in job_data:
         job_desc = job_data[user_input]
     else:
